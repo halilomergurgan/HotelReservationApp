@@ -2,8 +2,8 @@ default: &default
   adapter: mysql2
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: root
-  password: root
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
   host: localhost
 
 development:
@@ -17,5 +17,5 @@ test:
 production:
   <<: *default
   database: hotel_reservation_api_production
-  username: hotel_reservation_api
+  username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['HOTEL_RESERVATION_API_DATABASE_PASSWORD'] %>
