@@ -21,7 +21,7 @@ This is a RESTful API for managing hotel reservations. The API is built using Ru
 To set up the project, follow these steps:
 
 ```bash
-git clone https://github.com/halilomergurgan/HotelReservationApp.git
+git clone https://github.com/halilomergurgan/hotel-reservation-api.git
 cd hotel-reservation-api
 bundle install
 rails db:create
