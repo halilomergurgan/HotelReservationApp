@@ -1,9 +1,22 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# Channels
+channels = %w[Airbnb Booking Expedia Direct]
+channels.each do |channel|
+  Channel.find_or_create_by!(name: channel)
+end
+
+# Hotels
+hotels = [ 'Radisson', 'JW Marriott', 'Hilton', 'Hyatt' ]
+hotels.each do |hotel|
+  Hotel.find_or_create_by!(name: hotel)
+end
+
+# Rooms Calendar Seeding
+Room.find_each do |room|
+  (Date.today.beginning_of_year..Date.today.end_of_year).each do |date|
+    room.calendars.find_or_create_by!(
+      date: date,
+      available: [ true, false ].sample,
+      price: room.price + rand(-10..10)
+    )
+  end
+end

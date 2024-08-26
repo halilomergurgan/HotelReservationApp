@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_24_221605) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_26_211136) do
   create_table "calendars", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "room_id", null: false
     t.date "date"
@@ -19,6 +19,26 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_24_221605) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["room_id"], name: "index_calendars_on_room_id"
+  end
+
+  create_table "channels", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "guests", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "email"
+    t.string "first_name"
+    t.string "last_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "hotels", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "jwt_denylists", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -37,6 +57,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_24_221605) do
     t.decimal "total_price", precision: 10
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "channel_id"
+    t.bigint "hotel_id"
+    t.bigint "guest_id", null: false
+    t.index ["channel_id"], name: "index_reservations_on_channel_id"
+    t.index ["guest_id"], name: "index_reservations_on_guest_id"
+    t.index ["hotel_id"], name: "index_reservations_on_hotel_id"
     t.index ["room_id"], name: "index_reservations_on_room_id"
     t.index ["user_id"], name: "index_reservations_on_user_id"
   end
@@ -72,6 +98,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_24_221605) do
   end
 
   add_foreign_key "calendars", "rooms"
+  add_foreign_key "reservations", "channels"
+  add_foreign_key "reservations", "guests"
+  add_foreign_key "reservations", "hotels"
   add_foreign_key "reservations", "rooms"
   add_foreign_key "reservations", "users"
   add_foreign_key "rooms", "room_types"

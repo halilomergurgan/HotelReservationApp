@@ -8,7 +8,7 @@ class Users::SessionsController < Devise::SessionsController
       token = current_token
       render json: { message: 'Login Successful', user: resource, token: token }, status: :ok
     else
-      render json: { message: 'Login Failed', errors: ['Geçersiz e-posta veya şifre'] }, status: :unauthorized
+      render json: { message: 'Login Failed', errors: ['Invalid email or password'] }, status: :unauthorized
     end
   end
 
